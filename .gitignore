@@ -39,3 +39,7 @@
 
 # debug information files
 *.dwo
+
+build/*
+test_output/*
+test_directory/*
