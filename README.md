@@ -74,7 +74,7 @@ timelog_cli --dir_path="test_output" --file="test_output/file.data" --mode=UnPac
 
 During testing I observed that not every time compression of entire file really reduce result file size. For example when test_directory cantain a lot of very similar packs (binary the same) of files (only one byte is different) then compression of result file reduce size. When test_directory contain different packs of files then compression of result file often increase size.
 
-## What next
+## What's next?
 
 1. Add unit tests.
 2. Create devcontainer for development.
