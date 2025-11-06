@@ -33,7 +33,11 @@ void Packer::scanAndPack()
 
     clearHeader();
 
-    for (const auto& entry : fs::recursive_directory_iterator(m_options.m_dirPath)) {
+    fs::path canonicalPath = fs::canonical(m_options.m_dirPath);
+
+    std::cout << canonicalPath << std::endl;
+
+    for (const auto& entry : fs::recursive_directory_iterator(canonicalPath)) {
         if (fs::is_regular_file(entry)) {
             std::string hash = Compressor::sha256HashFile(entry.path());
 
