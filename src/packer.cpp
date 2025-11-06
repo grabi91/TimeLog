@@ -31,7 +31,7 @@ void Packer::scanAndPack()
         throw std::runtime_error("Packer::scanAndPack: path doesn't exist: " + m_options.m_dirPath.string());
     }
 
-    clearHeader();
+    clearFileAndSaveDefaultHeader();
 
     for (const auto& entry : fs::recursive_directory_iterator(m_options.m_dirPath)) {
         if (fs::is_regular_file(entry)) {
@@ -62,7 +62,7 @@ void Packer::writeHeaderAndManifest()
 
     m_header.manifestOffset = writeManifestData(compressed);
 
-    writeHeader();
+    updateHeader();
 }
 
 std::ofstream::pos_type Packer::writeManifestData(const std::string &data)
@@ -77,14 +77,14 @@ std::ofstream::pos_type Packer::writeManifestData(const std::string &data)
     return position;
 }
 
-void Packer::clearHeader()
+void Packer::clearFileAndSaveDefaultHeader()
 {
     std::ofstream outFile(m_options.m_filePath, std::ios::binary);
     outFile.write(reinterpret_cast<char*>(&m_header), sizeof(m_header));
     outFile.close();
 }
 
-void Packer::writeHeader()
+void Packer::updateHeader()
 {
     std::ofstream outFile(m_options.m_filePath, std::ios::binary | std::ios::in | std::ios::out);
     outFile.write(reinterpret_cast<char*>(&m_header), sizeof(m_header));

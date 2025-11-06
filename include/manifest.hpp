@@ -23,6 +23,8 @@ class Manifest {
         
         void deserialize(const std::string& data);
 
+        // Add hash to m_manifest map
+        // If hash appear for the first time, file will be compressed and saved to m_filePath
         void addAndWriteFile(const std::string& hash, const fs::path& filePath);
 
         void recreateFiles(const fs::path& dirPath);

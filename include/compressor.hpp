@@ -14,8 +14,11 @@ class Compressor {
 
         static std::string compressData(const std::string& data);
         static std::string decompressData(const std::string& compressedData, std::uint64_t originalSize);
+
+        // return FileInfo with information about position and size of data saved in outputPath
         static FileInfo compressFile(const fs::path& inputPath, const fs::path& outputPath);
 
+        // fileInfo should containinformation about position and size of data in inputPath
         static void decompressFile(const fs::path& inputPath, const fs::path& outputPath, const FileInfo& fileInfo);
 
         static std::streamsize getFileSize(const fs::path& filePath);

@@ -16,6 +16,8 @@ class Unpacker {
 
         std::string readFromFile(std::streampos position, std::size_t size);
 
+        // Decompress additional "m_options.m_filePath".compressed and save it to "m_options.m_filePath"
+        // If m_options.m_filePath file exist, it will be overwritted
         void decompressFile();
 
         const Cli::ParsedArgs m_options;
