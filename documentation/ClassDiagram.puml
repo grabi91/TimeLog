@@ -1,0 +1,90 @@
+@startuml
+
+class Packer {
+  +scanAndPack(): void
+  -writeHeaderAndManifest(): void
+  -writeManifestData(data): ofstream::pos_type
+  -clearFileAndSaveDefaultHeader(): void
+  -updateHeader(): void
+  -prepareFilePath(filePath): fs::path
+  -m_options: ParsedArgs
+  -m_manifest: Manifest
+  -m_header: Header
+}
+
+class Unpacker {
+  +restoreFiles(): void
+  -readHeader(): void
+  -readFromFile(position, size): string
+  -decompressFile(): void
+  -m_options: ParsedArgs
+  -m_manifest: Manifest
+  -m_header: Header
+}
+
+class Chunk << (S,#FFFFFF) >> {
+  +toString(): string
+  +static fromString(str):Chunk
+  +filesPaths: vector<string>
+  +position: ofstream::pos_type
+  +fileSize: std::streamsize
+}
+
+class Manifest {
+  +serialize(): string
+  +deserialize(data): void
+  +addAndWriteFile(hash, filePath): void
+  +recreateFiles(dirPath): void
+  -m_manifest: Map<string, Chunk>
+  -m_filePath: fs::path
+}
+
+class FileInfo << (S,#FFFFFF) >> {
+  +m_position
+  +m_fileSize
+}
+
+class Compressor {
+  +static compressData(data): string
+  +static decompressData(compressedData, originalSize): string
+  +static compressFile(inputPath, outputPath): FileInfo
+  +static decompressFile(inputPath, outputPath, fileInfo): void
+  +static getFileSize(filePath): streamsize
+  +static sha256HashFile(filePath): string
+}
+
+class ParsedArgs {
+  +parse(argc, argv): bool
+  +printHelp(): void
+  +m_mode: Mode
+  +m_fileMode: FileMode
+  +m_dirPath: fs::path
+  +m_filePath: fs::path
+}
+
+class Loading {
+  +start(): void
+  +stop(): void
+  -m_running: atomic<bool>
+  -m_loadingThread: thread
+}
+
+Compressor *-- FileInfo : contains
+Manifest *-- FileInfo : contains
+Packer *-- FileInfo : contains
+
+Packer o-- Compressor : uses
+Unpacker o-- Compressor : uses
+Manifest o-- Compressor : uses
+
+Packer *-- ParsedArgs : contains
+Unpacker *-- ParsedArgs : contains
+
+Compressor o-- Loading : uses
+
+Manifest *-- Chunk : contains
+
+Packer *-- Manifest : contains
+Unpacker *-- Manifest : contains
+
+@enduml

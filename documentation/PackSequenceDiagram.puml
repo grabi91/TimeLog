@@ -1,0 +1,52 @@
+@startuml
+
+User -> timelog_cli: Pack
+activate timelog_cli
+timelog_cli -> Packer: ScanAndPack
+activate Packer
+Packer -> Packer: CheckArguments and prepare header
+
+loop Iterate over files in directory
+  Packer -> Compressor: Get file hash
+  activate Compressor
+  Compressor -> Packer: Hash
+  deactivate Compressor
+
+  Packer -> Manifest: Add Hash and write file
+  activate Manifest
+  /note over Manifest
+    If hash appear
+    for the first time,
+    file will be compressed
+    and saved to result file
+  end note
+  Manifest -> Compressor: compress and save file
+  activate Compressor
+  Compressor -> Manifest: file compressed
+  deactivate Compressor
+  Manifest -> Packer
+  deactivate Manifest
+end
+
+Packer -> Packer: update header and save manifest
+
+Packer -> Manifest: serialize
+activate Manifest
+Manifest -> Packer: serialized data
+deactivate Manifest
+
+Packer -> Compressor: compress data
+activate Compressor
+Compressor -> Packer: compressed data
+deactivate Compressor
+
+Packer -> Packer: write manifest
+Packer -> Packer: update header
+
+Packer -> timelog_cli
+deactivate Packer
+
+timelog_cli -> User: Done
+deactivate timelog_cli
+
+@enduml

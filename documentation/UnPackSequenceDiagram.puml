@@ -1,0 +1,43 @@
+@startuml
+
+User -> timelog_cli: UnPack
+activate timelog_cli
+timelog_cli -> Unpacker: restore files
+
+activate Unpacker
+Unpacker -> Unpacker: CheckArguments and read header
+Unpacker -> Unpacker: read compressed manifest
+
+Unpacker -> Compressor: decompress data
+activate Compressor
+Compressor -> Unpacker: decopressed data
+deactivate Compressor
+
+Unpacker -> Manifest: deserialize manifest
+activate Manifest
+Manifest -> Unpacker
+deactivate Manifest
+
+Unpacker -> Manifest: recreate files
+activate Manifest
+
+loop Iterate over file hashes in the manifest
+  Manifest -> Manifest: Prepared filepaths and hash
+  loop Iterate over filepath in filepaths
+    Manifest -> Compressor: decompress file with hash
+    activate Compressor
+    Compressor -> Manifest
+    deactivate Compressor
+  end
+end
+
+Manifest -> Unpacker
+deactivate Manifest
+
+Unpacker -> timelog_cli
+deactivate Unpacker
+
+timelog_cli -> User: Done
+deactivate timelog_cli
+
+@enduml
