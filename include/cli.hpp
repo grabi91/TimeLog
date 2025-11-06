@@ -16,7 +16,9 @@ class ParsedArgs {
     public:
         ParsedArgs();
         
-        void parse(int argc, char* argv[]);
+        bool parse(int argc, char* argv[]);
+
+        void printHelp();
 
         Mode m_mode;
         FileMode m_fileMode;

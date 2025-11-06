@@ -20,6 +20,17 @@ Packer::Packer(Cli::ParsedArgs options):
 
 void Packer::scanAndPack()
 {
+    fs::path parentPath = m_options.m_filePath.parent_path();
+    if (!parentPath.empty() && !fs::exists(parentPath))
+    {
+        throw std::runtime_error("Packer::scanAndPack: file parent path doesn't exist: " + m_options.m_filePath.parent_path().string());
+    }
+
+    if (!fs::exists(m_options.m_dirPath))
+    {
+        throw std::runtime_error("Packer::scanAndPack: path doesn't exist: " + m_options.m_dirPath.string());
+    }
+
     clearHeader();
     
     for (const auto& entry : fs::recursive_directory_iterator(m_options.m_dirPath)) {

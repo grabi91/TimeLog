@@ -49,7 +49,7 @@ Compressor::FileInfo Compressor::compressFile(const fs::path& inputPath, const f
 
     fileInfo.m_position = outFile.tellp();
 
-    Cli::Loading loading("Proccessing");
+    Cli::Loading loading("Compressing");
 
     z_stream strm = {};
     deflateInit(&strm, Z_BEST_COMPRESSION);

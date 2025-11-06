@@ -17,6 +17,18 @@ void Unpacker::restoreFiles()
         decompressFile();
     }
 
+    if (!fs::exists(m_options.m_filePath))
+    {
+        throw std::runtime_error("Unpacker::restoreFiles: file doesn't exist: " + m_options.m_filePath.string());
+    }
+
+    if (!fs::exists(m_options.m_dirPath))
+    {
+        throw std::runtime_error("Unpacker::restoreFiles: path doesn't exist: " + m_options.m_dirPath.string());
+    }
+
+    std::cout << "Restoring directory from file: " << m_options.m_filePath << std::endl;
+
     readHeader();
 
     std::string manifestCompressed = readFromFile(m_header.manifestOffset, m_header.manifestCompressedSize);
@@ -67,9 +79,20 @@ std::string Unpacker::readFromFile(std::streampos position, std::size_t size)
 
 void Unpacker::decompressFile()
 {
-    std::string compressedPath =  m_options.m_filePath.string() + ".compressed";
+    fs::path compressedPath =  m_options.m_filePath.string() + ".compressed";
+    if (!fs::exists(compressedPath)) {
+        std::cout << "Additionally compressed file doesn't exist: " << compressedPath << std::endl;
+        return;
+    }
+
     Compressor::FileInfo fileInfo;
     fileInfo.m_fileSize = Compressor::getFileSize(compressedPath);
+    fileInfo.m_position = 0;
+
+    if (fs::exists(m_options.m_filePath)) {
+        std::cout << "Overwriting: " << m_options.m_filePath << std::endl;
+        return;
+    }
 
     std::cout << "Decompression file: " << compressedPath << std::endl;
     
