@@ -52,5 +52,6 @@
         "filesystem": "cpp",
         "cinttypes": "cpp",
         "thread": "cpp"
-    }
+    },
+    "plantuml.server": "http://www.plantuml.com/plantuml"
 }
