@@ -1,9 +1,12 @@
 #pragma once
 #include <string>
+#include <filesystem>
 
 #include "cli.hpp"
 #include "manifest.hpp"
 #include "types.hpp"
+
+namespace fs = std::filesystem;
 
 class Packer {
     public:
@@ -17,6 +20,8 @@ class Packer {
 
         void clearHeader();
         void writeHeader();
+
+        fs::path prepareFilePath(const fs::path& filePath);
 
         const Cli::ParsedArgs m_options;
 

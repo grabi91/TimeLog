@@ -32,12 +32,12 @@ void Packer::scanAndPack()
     }
 
     clearHeader();
-    
+
     for (const auto& entry : fs::recursive_directory_iterator(m_options.m_dirPath)) {
         if (fs::is_regular_file(entry)) {
             std::string hash = Compressor::sha256HashFile(entry.path());
 
-            m_manifest.addAndWriteFile(hash, entry.path());
+            m_manifest.addAndWriteFile(hash, prepareFilePath(entry.path()));
         }
     }
 
@@ -89,4 +89,14 @@ void Packer::writeHeader()
     std::ofstream outFile(m_options.m_filePath, std::ios::binary | std::ios::in | std::ios::out);
     outFile.write(reinterpret_cast<char*>(&m_header), sizeof(m_header));
     outFile.close();
+}
+
+fs::path Packer::prepareFilePath(const fs::path &filePath)
+{
+    fs::path parentPath = m_options.m_dirPath.parent_path();
+    if (!parentPath.empty() && fs::exists(parentPath)) {
+        return fs::relative(filePath, parentPath);
+    } else {
+        return filePath;
+    }
 }
