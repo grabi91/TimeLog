@@ -113,7 +113,7 @@ void ParsedArgs::printHelp()
               << "[--mode=<Pack/UnPack>]" << std::endl
               << "[--dir_path=<directory_path>] - mode=Pack: compress this directory, mode=UnPack: decompress to this directory" << std::endl
               << "[--file=<output/input_file>]" << std::endl
-              << "[--file_mode=Compressed - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension \".compressed\", mode=UnPack: ]" << std::endl
+              << "[--file_mode=Compressed - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension \".compressed\", mode=UnPack: first try to use file with extension \".compressed\", if found, decompress it and overwrite input_file]" << std::endl
               << std::endl
               << "Example:" << std::endl
               << "Compression: timelog_cli --dir_path=\"test_directory\" --file=\"test_output/file.data\" --mode=Pack" << std::endl

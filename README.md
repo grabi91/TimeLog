@@ -32,7 +32,7 @@ timelog_cli
 [--mode=<Pack/UnPack>]
 [--dir_path=<directory_path>] - mode=Pack: compress this directory, mode=UnPack: decompress to this directory
 [--file=<output/input_file>]
-[--file_mode=Compressed - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension ".compressed", mode=UnPack: ]
+[--file_mode=Compressed - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension ".compressed", mode=UnPack: first try to use file with extension ".compressed", if found, decompress it and overwrite input_file]
 ```
 
 ### Example:
