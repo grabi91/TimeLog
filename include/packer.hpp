@@ -5,8 +5,6 @@
 #include "manifest.hpp"
 #include "types.hpp"
 
-namespace fs = std::filesystem;
-
 class Packer {
     public:
         Packer(Cli::ParsedArgs options);
@@ -16,6 +14,7 @@ class Packer {
         void writeHeaderAndManifest();
 
         std::ofstream::pos_type writeManifestData(const std::string &data);
+
         void clearHeader();
         void writeHeader();
 

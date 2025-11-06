@@ -13,6 +13,7 @@ class Unpacker {
 
     private:
         void readHeader();
+
         std::string readFromFile(std::streampos position, std::size_t size);
 
         void decompressFile();

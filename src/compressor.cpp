@@ -1,6 +1,4 @@
-#include <stdexcept>
 #include <zlib.h>
-#include <iostream>
 #include <fstream>
 #include <openssl/sha.h>
 
@@ -35,7 +33,7 @@ std::string Compressor::decompressData(const std::string &compressedData, std::u
     return decompressed;
 }
 
-Compressor::FileInfo Compressor::compressFile(const std::string &inputPath, const std::string &outputPath)
+Compressor::FileInfo Compressor::compressFile(const fs::path& inputPath, const fs::path& outputPath)
 {
     char inBuffer[CHUNK_BUFFER_SIZE];
     char outBuffer[CHUNK_BUFFER_SIZE];
@@ -81,7 +79,7 @@ Compressor::FileInfo Compressor::compressFile(const std::string &inputPath, cons
     return fileInfo;
 }
 
-void Compressor::decompressFile(const std::string &inputPath, const std::string &outputPath, FileInfo fileInfo)
+void Compressor::decompressFile(const fs::path& inputPath, const fs::path& outputPath, const FileInfo& fileInfo)
 {
     char inBuffer[CHUNK_BUFFER_SIZE];
     char outBuffer[CHUNK_BUFFER_SIZE];
@@ -131,11 +129,11 @@ void Compressor::decompressFile(const std::string &inputPath, const std::string 
     inflateEnd(&strm);
 }
 
-std::streamsize Compressor::getFileSize(const std::string &filename)
+std::streamsize Compressor::getFileSize(const fs::path& filePath)
 {
-    std::ifstream file(filename, std::ios::binary | std::ios::ate);
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
     if (!file) {
-        throw std::runtime_error("Compressor::getFileSize: Failed to open file: " + filename);
+        throw std::runtime_error("Compressor::getFileSize: Failed to open file: " + filePath.string());
     }
 
     return file.tellg(); // Position at end = file size

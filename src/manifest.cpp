@@ -5,7 +5,7 @@
 #include "compressor.hpp"
 #include "manifest.hpp"
 
-Manifest::Manifest(std::string filePath):
+Manifest::Manifest(const fs::path& filePath):
     m_filePath(filePath)
 {
 }
@@ -35,7 +35,7 @@ void Manifest::deserialize(const std::string &data)
     }
 }
 
-void Manifest::addAndWriteFile(std::string hash, const fs::path &filePath)
+void Manifest::addAndWriteFile(const std::string& hash, const fs::path& filePath)
 {
     if (m_manifest.find(hash) != m_manifest.end()) {
         m_manifest[hash].filesPaths.push_back(filePath);
@@ -50,7 +50,7 @@ void Manifest::addAndWriteFile(std::string hash, const fs::path &filePath)
     }
 }
 
-void Manifest::recreateFiles(std::string dirPath)
+void Manifest::recreateFiles(const fs::path& dirPath)
 {
     for (const auto& [hash, chunk] : m_manifest) {
         Compressor::FileInfo fileInfo;
@@ -60,7 +60,7 @@ void Manifest::recreateFiles(std::string dirPath)
         std::cout << "Recreation file with hash: " << hash << std::endl;
 
         for (const auto& filepath : chunk.filesPaths) {
-            fs::path outputPath = fs::path(dirPath) / fs::path(filepath);
+            fs::path outputPath = dirPath / fs::path(filepath);
             fs::create_directories(outputPath.parent_path());
 
             Compressor::decompressFile(m_filePath, outputPath, fileInfo);

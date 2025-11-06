@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 class Manifest {
     public:
-        Manifest(std::string filePath);
+        Manifest(const fs::path& filePath);
 
         struct Chunk {
             std::vector<std::string> filesPaths;
@@ -23,11 +23,11 @@ class Manifest {
         
         void deserialize(const std::string& data);
 
-        void addAndWriteFile(std::string hash, const fs::path &filePath);
+        void addAndWriteFile(const std::string& hash, const fs::path& filePath);
 
-        void recreateFiles(std::string dirPath);
+        void recreateFiles(const fs::path& dirPath);
         
     private:
         std::unordered_map<std::string, Chunk> m_manifest;
-        std::string m_filePath;
+        const fs::path m_filePath;
 };

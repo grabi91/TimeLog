@@ -1,7 +1,4 @@
 #include <iostream>
-#include <unordered_map>
-#include <string>
-#include <functional>
 #include <chrono>
 
 #include "cli.hpp"

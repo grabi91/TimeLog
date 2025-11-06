@@ -1,6 +1,5 @@
 #include <filesystem>
 #include <iostream>
-
 #include <fstream>
 
 #include "packer.hpp"
@@ -35,7 +34,7 @@ void Packer::scanAndPack()
 
     if (m_options.m_fileMode == Cli::FileMode::Compressed)
     {
-        fs::path compressedFilePath = m_options.m_filePath + ".compressed";
+        fs::path compressedFilePath = m_options.m_filePath.string() + ".compressed";
         std::cout << "Additional compression started" << std::endl;
         Compressor::compressFile(m_options.m_filePath, compressedFilePath);
         std::cout << "Compressed file created: " << compressedFilePath << std::endl;

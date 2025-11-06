@@ -67,7 +67,7 @@ std::string Unpacker::readFromFile(std::streampos position, std::size_t size)
 
 void Unpacker::decompressFile()
 {
-    std::string compressedPath =  m_options.m_filePath + ".compressed";
+    std::string compressedPath =  m_options.m_filePath.string() + ".compressed";
     Compressor::FileInfo fileInfo;
     fileInfo.m_fileSize = Compressor::getFileSize(compressedPath);
 

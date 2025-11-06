@@ -2,6 +2,9 @@
 #include <string>
 #include <atomic>
 #include <thread>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace Cli {
 
@@ -17,8 +20,8 @@ class ParsedArgs {
 
         Mode m_mode;
         FileMode m_fileMode;
-        std::string m_dirPath;
-        std::string m_filePath;
+        fs::path m_dirPath;
+        fs::path m_filePath;
 
 };
 
