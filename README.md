@@ -26,19 +26,31 @@ build/timelog_cli
 ```
 
 ## Usage
+
 ```bash
 timelog_cli
 [--mode=<Pack/UnPack>]
 [--dir_path=<directory_path>] - mode=Pack: compress this directory, mode=UnPack: decompress to this directory
 [--file=<output/input_file>]
 [--file_mode=Compressed - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension ".compressed", mode=UnPack: ]
+```
 
-Example:
-Compression: timelog_cli --dir_path="test_directory" --file="test_output/file.data" --mode=Pack
-Decompression: timelog_cli --dir_path="test_output" --file="test_output/file.data" --mode=UnPack
+### Example:
+Compression: 
+```bash
+timelog_cli --dir_path="test_directory" --file="test_output/file.data" --mode=Pack
+```
+Decompression:
+```bash
+timelog_cli --dir_path="test_output" --file="test_output/file.data" --mode=UnPack
+```
 
 Additional compression:
+```bash
 timelog_cli --dir_path="test_directory" --file="test_output/file.data" --mode=Pack --file_mode=Compressed
+```
+
+```bash
 timelog_cli --dir_path="test_output" --file="test_output/file.data" --mode=UnPack --file_mode=Compressed
 ```
 
