@@ -110,7 +110,7 @@ bool ParsedArgs::parse(int argc, char *argv[])
 void ParsedArgs::printHelp()
 {
     std::cout << "Usage: timelog_cli" << std::endl
-              << "[--mode=<Pack/UnPack>" << std::endl
+              << "[--mode=<Pack/UnPack>]" << std::endl
               << "[--dir_path=<directory_path>] - mode=Pack: compress this directory, mode=UnPack: decompress to this directory" << std::endl
               << "[--file=<output/input_file>]" << std::endl
               << "[--file_mode<Compressed> - optional parameter for additional compression of result file, mode=Pack: second file will be produced with extension \".compressed\", mode=UnPack: ]" << std::endl
